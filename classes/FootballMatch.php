@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/BaseModel.php';
 
-class Match extends BaseModel
+class FootballMatch extends BaseModel
 {
     private $id;
     private $team_a;

@@ -42,7 +42,7 @@
                 <h3 class="mt-2"><?php
                     $totalAvail = 0;
                     foreach ($allMatches as $m) {
-                        $totalAvail += $match->getAvailableSeats($m['id']);
+                        $totalAvail += $footballMatch->getAvailableSeats($m['id']);
                     }
                     echo $totalAvail;
                 ?></h3>
@@ -84,7 +84,7 @@
                                         <td>TSh <?= number_format($m['ticket_price'], 2) ?></td>
                                         <td>
                                             <?php
-                                            $avail = $match->getAvailableSeats($m['id']);
+                                            $avail = $footballMatch->getAvailableSeats($m['id']);
                                             ?>
                                             <span class="<?= $avail > 0 ? 'text-success' : 'text-danger' ?>">
                                                 <?= $avail ?> / <?= $m['total_seats'] ?>

@@ -61,7 +61,7 @@
                                     <p class="mb-0">
                                         <i class="bi bi-seat"></i>
                                         <?php
-                                        $matchObj = new Match();
+                                        $matchObj = new FootballMatch();
                                         $avail = $matchObj->getAvailableSeats($m['id']);
                                         ?>
                                         <span class="<?= $avail > 0 ? 'text-success' : 'text-danger' ?>">
@@ -114,7 +114,7 @@
                                     <p class="mb-0">
                                         <i class="bi bi-seat"></i>
                                         <?php
-                                        $matchObj = new Match();
+                                        $matchObj = new FootballMatch();
                                         $avail = $matchObj->getAvailableSeats($m['id']);
                                         ?>
                                         <span class="<?= $avail > 0 ? 'text-success' : 'text-danger' ?>">

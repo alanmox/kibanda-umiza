@@ -81,7 +81,7 @@ CREATE TABLE payments (
 
 -- Default admin account (password: admin123)
 INSERT INTO admins (username, password_hash) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+('admin', '$2y$12$HxHHso6myFsvs/P1juQBhOM8TE7pvh1wCkvR78pYvtjHidAfsOOMq');
 
 -- Sample matches
 INSERT INTO matches (team_a, team_b, competition, match_date, match_time, ticket_price, total_seats, status) VALUES

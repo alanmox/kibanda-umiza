@@ -6,16 +6,16 @@ ini_set('display_errors', 1);
 require_once __DIR__ . '/../classes/Database.php';
 require_once __DIR__ . '/../classes/Encryption.php';
 require_once __DIR__ . '/../classes/Auth.php';
-require_once __DIR__ . '/../classes/Match.php';
+require_once __DIR__ . '/../classes/FootballMatch.php';
 require_once __DIR__ . '/../classes/Customer.php';
 require_once __DIR__ . '/../classes/Payment.php';
 require_once __DIR__ . '/../classes/Report.php';
 
-$auth   = new Auth();
-$match  = new Match();
-$customer = new Customer();
-$payment  = new Payment();
-$report   = new Report();
+$auth         = new Auth();
+$footballMatch = new FootballMatch();
+$customer     = new Customer();
+$payment      = new Payment();
+$report       = new Report();
 
 $page     = $_GET['page'] ?? 'landing';
 $action   = $_GET['action'] ?? '';
@@ -25,8 +25,8 @@ ob_start();
 
 switch ($page) {
     case 'landing':
-        $todayMatches    = $match->getTodayMatches();
-        $upcomingMatches = $match->getUpcomingMatches();
+        $todayMatches    = $footballMatch->getTodayMatches();
+        $upcomingMatches = $footballMatch->getUpcomingMatches();
         include __DIR__ . '/../views/landing.php';
         break;
 
@@ -80,11 +80,11 @@ switch ($page) {
                 break;
 
             case 'dashboard':
-                $totalMatches     = $match->getTotalMatchesCount();
+                $totalMatches     = $footballMatch->getTotalMatchesCount();
                 $todayCustomers   = $customer->getTodayCount();
                 $todayRevenue     = $payment->getTodayRevenue();
-                $allMatches       = $match->getAll();
-                $upcomingMatches  = $match->getUpcomingMatches();
+                $allMatches       = $footballMatch->getAll();
+                $upcomingMatches  = $footballMatch->getUpcomingMatches();
                 include __DIR__ . '/../views/admin/dashboard.php';
                 break;
 
@@ -94,33 +94,33 @@ switch ($page) {
 
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (isset($_POST['add_match'])) {
-                        $match->loadFromArray($_POST);
-                        if ($match->create()) {
+                        $footballMatch->loadFromArray($_POST);
+                        if ($footballMatch->create()) {
                             $successMessage = 'Match added successfully.';
                         } else {
-                            $errorMessage = 'Failed to add match: ' . $match->getLastError();
+                            $errorMessage = 'Failed to add match: ' . $footballMatch->getLastError();
                         }
                     } elseif (isset($_POST['edit_match'])) {
-                        $match->loadFromArray($_POST);
-                        $match->setId($_POST['id']);
-                        if ($match->update()) {
+                        $footballMatch->loadFromArray($_POST);
+                        $footballMatch->setId($_POST['id']);
+                        if ($footballMatch->update()) {
                             $successMessage = 'Match updated successfully.';
                         } else {
-                            $errorMessage = 'Failed to update match: ' . $match->getLastError();
+                            $errorMessage = 'Failed to update match: ' . $footballMatch->getLastError();
                         }
                     } elseif (isset($_POST['delete_match'])) {
-                        if ($match->delete($_POST['id'])) {
+                        if ($footballMatch->delete($_POST['id'])) {
                             $successMessage = 'Match deleted successfully.';
                         } else {
                             $errorMessage = 'Failed to delete match.';
                         }
                     } elseif (isset($_POST['search'])) {
-                        $matches = $match->search($_POST['keyword']);
+                        $footballMatches = $footballMatch->search($_POST['keyword']);
                     }
                 }
 
-                if (!isset($matches)) {
-                    $matches = $match->getAll();
+                if (!isset($footballMatches)) {
+                    $footballMatches = $footballMatch->getAll();
                 }
 
                 include __DIR__ . '/../views/admin/matches.php';
@@ -146,7 +146,7 @@ switch ($page) {
 
                 $customers     = $customer->getAll();
                 $customerMatch = isset($_GET['match_id']) ? $customer->getCustomersByMatch($_GET['match_id']) : null;
-                $allMatches    = $match->getAll();
+                $allMatches    = $footballMatch->getAll();
                 include __DIR__ . '/../views/admin/customers.php';
                 break;
 
@@ -169,7 +169,7 @@ switch ($page) {
 
                 $payments      = $payment->getAllWithDetails();
                 $allCustomers  = $customer->getAll();
-                $allMatches    = $match->getAll();
+                $allMatches    = $footballMatch->getAll();
                 include __DIR__ . '/../views/admin/payments.php';
                 break;
 
@@ -189,8 +189,8 @@ switch ($page) {
         break;
 
     default:
-        $todayMatches    = $match->getTodayMatches();
-        $upcomingMatches = $match->getUpcomingMatches();
+        $todayMatches    = $footballMatch->getTodayMatches();
+        $upcomingMatches = $footballMatch->getUpcomingMatches();
         include __DIR__ . '/../views/landing.php';
         break;
 }
