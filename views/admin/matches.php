@@ -82,95 +82,100 @@
                                     </button>
                                 </td>
                             </tr>
-
-                            <div class="modal fade" id="editMatchModal<?= $m['id'] ?>">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary text-white">
-                                            <h5 class="modal-title">Edit Match</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <form method="POST">
-                                            <div class="modal-body">
-                                                <input type="hidden" name="id" value="<?= $m['id'] ?>">
-                                                <div class="row g-3">
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Team A</label>
-                                                        <input type="text" class="form-control" name="team_a" value="<?= htmlspecialchars($m['team_a']) ?>" required>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Team B</label>
-                                                        <input type="text" class="form-control" name="team_b" value="<?= htmlspecialchars($m['team_b']) ?>" required>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Competition</label>
-                                                        <input type="text" class="form-control" name="competition" value="<?= htmlspecialchars($m['competition']) ?>" required>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Status</label>
-                                                        <select class="form-select" name="status">
-                                                            <option value="upcoming" <?= $m['status'] == 'upcoming' ? 'selected' : '' ?>>Upcoming</option>
-                                                            <option value="ongoing" <?= $m['status'] == 'ongoing' ? 'selected' : '' ?>>Ongoing</option>
-                                                            <option value="completed" <?= $m['status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label">Match Date</label>
-                                                        <input type="date" class="form-control" name="match_date" value="<?= $m['match_date'] ?>" required>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label">Match Time</label>
-                                                        <input type="time" class="form-control" name="match_time" value="<?= date('H:i', strtotime($m['match_time'])) ?>" required>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label">Total Seats</label>
-                                                        <input type="number" class="form-control" name="total_seats" value="<?= $m['total_seats'] ?>" min="1" required>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label">Ticket Price (TSh)</label>
-                                                        <input type="number" step="0.01" class="form-control" name="ticket_price" value="<?= $m['ticket_price'] ?>" min="0.01" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="edit_match" class="btn btn-primary">
-                                                    <i class="bi bi-save"></i> Update Match
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="deleteMatchModal<?= $m['id'] ?>">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-danger text-white">
-                                            <h5 class="modal-title">Confirm Delete</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete this match?</p>
-                                            <p class="fw-bold"><?= htmlspecialchars($m['team_a']) ?> vs <?= htmlspecialchars($m['team_b']) ?></p>
-                                            <p class="text-danger"><i class="bi bi-exclamation-triangle"></i> This action cannot be undone.</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form method="POST">
-                                                <input type="hidden" name="id" value="<?= $m['id'] ?>">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="delete_match" class="btn btn-danger">
-                                                    <i class="bi bi-trash"></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<?php foreach ($footballMatches as $m): ?>
+<div class="modal fade" id="editMatchModal<?= $m['id'] ?>">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Edit Match</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="<?= $m['id'] ?>">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Team A</label>
+                            <input type="text" class="form-control" name="team_a" value="<?= htmlspecialchars($m['team_a']) ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Team B</label>
+                            <input type="text" class="form-control" name="team_b" value="<?= htmlspecialchars($m['team_b']) ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Competition</label>
+                            <input type="text" class="form-control" name="competition" value="<?= htmlspecialchars($m['competition']) ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" name="status">
+                                <option value="upcoming" <?= $m['status'] == 'upcoming' ? 'selected' : '' ?>>Upcoming</option>
+                                <option value="ongoing" <?= $m['status'] == 'ongoing' ? 'selected' : '' ?>>Ongoing</option>
+                                <option value="completed" <?= $m['status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Match Date</label>
+                            <input type="date" class="form-control" name="match_date" value="<?= $m['match_date'] ?>" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Match Time</label>
+                            <input type="time" class="form-control" name="match_time" value="<?= date('H:i', strtotime($m['match_time'])) ?>" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Total Seats</label>
+                            <input type="number" class="form-control" name="total_seats" value="<?= $m['total_seats'] ?>" min="1" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ticket Price (TSh)</label>
+                            <input type="number" step="0.01" class="form-control" name="ticket_price" value="<?= $m['ticket_price'] ?>" min="0.01" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="edit_match" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Update Match
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteMatchModal<?= $m['id'] ?>">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this match?</p>
+                <p class="fw-bold"><?= htmlspecialchars($m['team_a']) ?> vs <?= htmlspecialchars($m['team_b']) ?></p>
+                <p class="text-danger"><i class="bi bi-exclamation-triangle"></i> This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <form method="POST">
+                    <input type="hidden" name="id" value="<?= $m['id'] ?>">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="delete_match" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
         </div>
     </div>
 </div>
