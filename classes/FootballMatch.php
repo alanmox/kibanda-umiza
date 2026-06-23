@@ -130,8 +130,12 @@ class FootballMatch extends BaseModel
         }
         if (empty($this->match_time)) {
             $this->errors[] = 'Match time is required.';
-        } elseif (!preg_match('/^\d{2}:\d{2}:\d{2}$/', $this->match_time)) {
-            $this->errors[] = 'Invalid time format. Use HH:MM:SS.';
+        } elseif (!preg_match('/^\d{2}:\d{2}(:\d{2})?$/', $this->match_time)) {
+            $this->errors[] = 'Invalid time format. Use HH:MM.';
+        } else {
+            if (preg_match('/^\d{2}:\d{2}$/', $this->match_time)) {
+                $this->match_time .= ':00';
+            }
         }
         if ($this->ticket_price <= 0) {
             $this->errors[] = 'Ticket price must be greater than zero.';

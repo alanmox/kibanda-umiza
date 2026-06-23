@@ -51,12 +51,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($matches)): ?>
+                    <?php if (empty($footballMatches)): ?>
                         <tr>
                             <td colspan="10" class="text-center text-muted">No matches found.</td>
                         </tr>
                     <?php else: ?>
-                        <?php foreach ($matches as $idx => $m): ?>
+                        <?php foreach ($footballMatches as $idx => $m): ?>
                             <tr>
                                 <td><?= $idx + 1 ?></td>
                                 <td><strong><?= htmlspecialchars($m['team_a']) ?></strong></td>
