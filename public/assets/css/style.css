@@ -46,7 +46,7 @@ body > * {
 }
 
 .navbar .nav-link {
-    color: rgba(255, 255, 255, 0.7) !important;
+    color: lch(99.31% 0.01 296.81) !important;
     font-weight: 500;
     font-size: 0.9rem;
     padding: 8px 16px !important;
@@ -56,7 +56,7 @@ body > * {
 
 .navbar .nav-link:hover {
     color: var(--primary) !important;
-    background: rgba(0, 200, 83, 0.1);
+    background: rgba(238, 191, 3, 0.601);
 }
 
 .navbar-brand { font-size: 1.4rem; letter-spacing: -0.5px; }
