@@ -1,26 +1,251 @@
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-<section class="hero-section d-flex align-items-center">
-    <div class="container text-center text-white">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="hero-icon mb-4">
-                    <i class="bi bi-trophy-fill display-1 text-warning"></i>
+<section class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-7">
+                <div class="hero-badge">
+                    <i class="bi bi-broadcast"></i> Live Football Experience
                 </div>
-                <h1 class="display-3 fw-bold text-uppercase">Kibanda Umiza</h1>
-                <p class="lead fs-3 mb-1">Football Viewing Center</p>
-                <p class="fs-5 mb-4 text-success-light">Experience the thrill of live football on the big screen!</p>
-                <div class="d-flex justify-content-center gap-3">
-                    <a href="#today-matches" class="btn btn-success btn-lg px-4">
+                <h1 class="hero-title">Feel Every<br>Goal Like Never Before</h1>
+                <p class="hero-subtitle">Welcome to Kibanda Umiza — Tanzania's premier football viewing center. Watch live matches on massive screens with crystal-clear sound and electrifying atmosphere.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#today-matches" class="btn btn-success btn-lg px-4 rounded-pill">
                         <i class="bi bi-calendar-check"></i> Today's Matches
                     </a>
-                    <a href="#upcoming-matches" class="btn btn-outline-light btn-lg px-4">
-                        <i class="bi bi-calendar-event"></i> Upcoming Matches
+                    <a href="#tickets" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                        <i class="bi bi-ticket"></i> View Prices
                     </a>
                 </div>
-                <div class="mt-4">
-                    <a href="?page=admin&action=login" class="text-white-50 text-decoration-none small">
-                        <i class="bi bi-lock"></i> Admin Login
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number">50+</span>
+                        <span class="hero-stat-label">Seats</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number">4K</span>
+                        <span class="hero-stat-label">Projection</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-number">24/7</span>
+                        <span class="hero-stat-label">Service</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="hero-image-wrapper">
+                    <div class="hero-image-glow"></div>
+                    <div class="hero-trophy">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <div class="floating-ball"><i class="bi bi-circle-fill text-success"></i></div>
+                    <div class="floating-ball"><i class="bi bi-circle-fill text-warning"></i></div>
+                    <div class="floating-ball"><i class="bi bi-circle-fill text-danger"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="today-matches" class="section">
+    <div class="container">
+        <div class="text-center">
+            <span class="section-tag"><i class="bi bi-calendar-check"></i> Live Now</span>
+            <h2 class="section-title">Today's Matches</h2>
+            <p class="section-subtitle">Catch all the action live on our big screens. Grab your seat and enjoy the game!</p>
+        </div>
+
+        <?php if (empty($todayMatches)): ?>
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-x display-1 text-muted"></i>
+                <p class="text-muted mt-3 fs-5">No matches scheduled for today. Check upcoming matches!</p>
+                <a href="#upcoming-matches" class="btn btn-success rounded-pill px-4 mt-2">
+                    <i class="bi bi-calendar-event"></i> View Upcoming
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="row g-4">
+                <?php foreach ($todayMatches as $m):
+                    $matchObj = new FootballMatch();
+                    $avail = $matchObj->getAvailableSeats($m['id']);
+                    $seatClass = $avail > 10 ? 'seat-available' : ($avail > 0 ? 'seat-limited' : 'seat-full');
+                    $seatText = $avail > 0 ? $avail . ' / ' . $m['total_seats'] . ' seats left' : 'Fully booked';
+                ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="match-card h-100">
+                            <span class="match-status match-status-upcoming">
+                                <i class="bi bi-dot"></i> Today
+                            </span>
+                            <div class="match-teams">
+                                <div class="team-block">
+                                    <div class="team-icon">
+                                        <i class="bi bi-shield-fill-check"></i>
+                                    </div>
+                                    <div class="team-name"><?= htmlspecialchars($m['team_a']) ?></div>
+                                </div>
+                                <div class="vs-divider">VS</div>
+                                <div class="team-block">
+                                    <div class="team-icon">
+                                        <i class="bi bi-shield-fill-exclamation"></i>
+                                    </div>
+                                    <div class="team-name"><?= htmlspecialchars($m['team_b']) ?></div>
+                                </div>
+                            </div>
+                            <div class="match-details">
+                                <div class="match-detail-item">
+                                    <i class="bi bi-clock"></i> <?= date('H:i', strtotime($m['match_time'])) ?>
+                                </div>
+                                <div class="match-detail-item">
+                                    <i class="bi bi-cash"></i> TSh <?= number_format($m['ticket_price'], 0) ?>
+                                </div>
+                                <div class="match-competition">
+                                    <i class="bi bi-trophy"></i> <?= htmlspecialchars($m['competition']) ?>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="seat-info <?= $seatClass ?>">
+                                        <i class="bi bi-seat"></i> <?= $seatText ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
+<section id="upcoming-matches" class="section" style="background: var(--dark-2);">
+    <div class="container">
+        <div class="text-center">
+            <span class="section-tag"><i class="bi bi-calendar-event"></i> Don't Miss</span>
+            <h2 class="section-title">Upcoming Matches</h2>
+            <p class="section-subtitle">Plan your visit and book your seat for the biggest football matches.</p>
+        </div>
+
+        <?php if (empty($upcomingMatches)): ?>
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-week display-1 text-muted"></i>
+                <p class="text-muted mt-3 fs-5">No upcoming matches scheduled yet. Check back soon!</p>
+            </div>
+        <?php else: ?>
+            <div class="row g-4">
+                <?php foreach ($upcomingMatches as $m):
+                    $matchObj = new FootballMatch();
+                    $avail = $matchObj->getAvailableSeats($m['id']);
+                    $seatClass = $avail > 10 ? 'seat-available' : ($avail > 0 ? 'seat-limited' : 'seat-full');
+                    $seatText = $avail > 0 ? $avail . ' / ' . $m['total_seats'] . ' seats' : 'Full';
+                ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="match-card h-100">
+                            <span class="match-status match-status-upcoming">
+                                <i class="bi bi-calendar3"></i> <?= date('d M', strtotime($m['match_date'])) ?>
+                            </span>
+                            <div class="match-teams">
+                                <div class="team-block">
+                                    <div class="team-icon">
+                                        <i class="bi bi-shield-fill-check"></i>
+                                    </div>
+                                    <div class="team-name"><?= htmlspecialchars($m['team_a']) ?></div>
+                                </div>
+                                <div class="vs-divider">VS</div>
+                                <div class="team-block">
+                                    <div class="team-icon">
+                                        <i class="bi bi-shield-fill-exclamation"></i>
+                                    </div>
+                                    <div class="team-name"><?= htmlspecialchars($m['team_b']) ?></div>
+                                </div>
+                            </div>
+                            <div class="match-details">
+                                <div class="match-detail-item">
+                                    <i class="bi bi-calendar"></i> <?= date('l, d M Y', strtotime($m['match_date'])) ?>
+                                </div>
+                                <div class="match-detail-item">
+                                    <i class="bi bi-clock"></i> <?= date('H:i', strtotime($m['match_time'])) ?>
+                                </div>
+                                <div class="match-detail-item">
+                                    <i class="bi bi-cash"></i> TSh <?= number_format($m['ticket_price'], 0) ?>
+                                </div>
+                                <div class="match-competition">
+                                    <i class="bi bi-trophy"></i> <?= htmlspecialchars($m['competition']) ?>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="seat-info <?= $seatClass ?>">
+                                        <i class="bi bi-seat"></i> <?= $seatText ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
+<section id="tickets" class="section">
+    <div class="container">
+        <div class="text-center">
+            <span class="section-tag"><i class="bi bi-ticket-perforated"></i> Pricing</span>
+            <h2 class="section-title">Ticket Prices</h2>
+            <p class="section-subtitle">Affordable prices for every fan. Experience world-class football viewing.</p>
+        </div>
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card">
+                    <div class="pricing-icon regular">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </div>
+                    <h4 class="pricing-name">Regular Match</h4>
+                    <div class="pricing-price text-success">TSh 12,000</div>
+                    <ul class="pricing-features">
+                        <li><i class="bi bi-check-lg"></i> Standard seating</li>
+                        <li><i class="bi bi-check-lg"></i> Big screen view</li>
+                        <li><i class="bi bi-check-lg"></i> Free water</li>
+                        <li><i class="bi bi-check-lg"></i> League matches</li>
+                    </ul>
+                    <a href="#upcoming-matches" class="btn btn-outline-success w-100 rounded-pill">
+                        <i class="bi bi-calendar"></i> Book Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card featured">
+                    <div class="pricing-icon premium">
+                        <i class="bi bi-ticket-detailed"></i>
+                    </div>
+                    <h4 class="pricing-name">Premium Match</h4>
+                    <div class="pricing-price text-warning">TSh 18,000</div>
+                    <ul class="pricing-features">
+                        <li><i class="bi bi-check-lg"></i> Premium seating</li>
+                        <li><i class="bi bi-check-lg"></i> Center screen view</li>
+                        <li><i class="bi bi-check-lg"></i> Free snacks & drink</li>
+                        <li><i class="bi bi-check-lg"></i> All matches included</li>
+                    </ul>
+                    <a href="#upcoming-matches" class="btn btn-success w-100 rounded-pill">
+                        <i class="bi bi-calendar"></i> Book Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card">
+                    <div class="pricing-icon vip">
+                        <i class="bi bi-ticket-fill"></i>
+                    </div>
+                    <h4 class="pricing-name">VIP Section</h4>
+                    <div class="pricing-price text-danger">TSh 25,000</div>
+                    <ul class="pricing-features">
+                        <li><i class="bi bi-check-lg"></i> VIP lounge access</li>
+                        <li><i class="bi bi-check-lg"></i> Best screen position</li>
+                        <li><i class="bi bi-check-lg"></i> Full meal & drinks</li>
+                        <li><i class="bi bi-check-lg"></i> Dedicated service</li>
+                    </ul>
+                    <a href="#upcoming-matches" class="btn btn-outline-danger w-100 rounded-pill">
+                        <i class="bi bi-calendar"></i> Book Now
                     </a>
                 </div>
             </div>
@@ -28,147 +253,40 @@
     </div>
 </section>
 
-<section id="today-matches" class="py-5">
+<section id="features" class="section" style="background: var(--dark-2);">
     <div class="container">
-        <h2 class="section-title text-center mb-5">
-            <i class="bi bi-calendar-check text-success"></i> Today's Matches
-        </h2>
-        <?php if (empty($todayMatches)): ?>
-            <div class="alert alert-info text-center">
-                <i class="bi bi-info-circle"></i> No matches scheduled for today. Check upcoming matches!
-            </div>
-        <?php else: ?>
-            <div class="row">
-                <?php foreach ($todayMatches as $m): ?>
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card match-card h-100">
-                            <div class="card-body text-center">
-                                <div class="match-teams">
-                                    <div class="team-name"><?= htmlspecialchars($m['team_a']) ?></div>
-                                    <div class="vs-badge">VS</div>
-                                    <div class="team-name"><?= htmlspecialchars($m['team_b']) ?></div>
-                                </div>
-                                <div class="match-info mt-3">
-                                    <span class="badge bg-warning text-dark">
-                                        <i class="bi bi-trophy"></i> <?= htmlspecialchars($m['competition']) ?>
-                                    </span>
-                                    <p class="mt-2 mb-1">
-                                        <i class="bi bi-clock"></i> <?= date('H:i', strtotime($m['match_time'])) ?>
-                                    </p>
-                                    <p class="mb-1">
-                                        <i class="bi bi-currency-dollar"></i> TSh <?= number_format($m['ticket_price'], 2) ?>
-                                    </p>
-                                    <p class="mb-0">
-                                        <i class="bi bi-seat"></i>
-                                        <?php
-                                        $matchObj = new FootballMatch();
-                                        $avail = $matchObj->getAvailableSeats($m['id']);
-                                        ?>
-                                        <span class="<?= $avail > 0 ? 'text-success' : 'text-danger' ?>">
-                                            <?= $avail ?> / <?= $m['total_seats'] ?> seats available
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </div>
-</section>
-
-<section id="upcoming-matches" class="py-5 bg-dark">
-    <div class="container">
-        <h2 class="section-title text-center mb-5 text-white">
-            <i class="bi bi-calendar-event text-success"></i> Upcoming Matches
-        </h2>
-        <?php if (empty($upcomingMatches)): ?>
-            <div class="alert alert-info text-center">
-                <i class="bi bi-info-circle"></i> No upcoming matches scheduled.
-            </div>
-        <?php else: ?>
-            <div class="row">
-                <?php foreach ($upcomingMatches as $m): ?>
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card match-card h-100">
-                            <div class="card-body text-center">
-                                <div class="match-teams">
-                                    <div class="team-name"><?= htmlspecialchars($m['team_a']) ?></div>
-                                    <div class="vs-badge">VS</div>
-                                    <div class="team-name"><?= htmlspecialchars($m['team_b']) ?></div>
-                                </div>
-                                <div class="match-info mt-3">
-                                    <span class="badge bg-warning text-dark">
-                                        <i class="bi bi-trophy"></i> <?= htmlspecialchars($m['competition']) ?>
-                                    </span>
-                                    <p class="mt-2 mb-1">
-                                        <i class="bi bi-calendar"></i> <?= date('d M Y', strtotime($m['match_date'])) ?>
-                                    </p>
-                                    <p class="mb-1">
-                                        <i class="bi bi-clock"></i> <?= date('H:i', strtotime($m['match_time'])) ?>
-                                    </p>
-                                    <p class="mb-1">
-                                        <i class="bi bi-currency-dollar"></i> TSh <?= number_format($m['ticket_price'], 2) ?>
-                                    </p>
-                                    <p class="mb-0">
-                                        <i class="bi bi-seat"></i>
-                                        <?php
-                                        $matchObj = new FootballMatch();
-                                        $avail = $matchObj->getAvailableSeats($m['id']);
-                                        ?>
-                                        <span class="<?= $avail > 0 ? 'text-success' : 'text-danger' ?>">
-                                            <?= $avail ?> / <?= $m['total_seats'] ?> seats
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </div>
-</section>
-
-<section class="py-5">
-    <div class="container text-center">
-        <h2 class="section-title mb-5">Ticket Prices</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-4 mb-4">
-                <div class="card pricing-card h-100">
-                    <div class="card-body">
-                        <div class="pricing-icon mb-3">
-                            <i class="bi bi-ticket-perforated display-4 text-success"></i>
-                        </div>
-                        <h4>Regular Match</h4>
-                        <h3 class="text-success fw-bold">TSh 12,000 - 15,000</h3>
-                        <p class="text-muted">Standard league matches</p>
-                    </div>
+        <div class="text-center">
+            <span class="section-tag"><i class="bi bi-star"></i> Why Choose Us</span>
+            <h2 class="section-title">The Ultimate Viewing Experience</h2>
+            <p class="section-subtitle">Everything you need for an unforgettable match day experience.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-tv"></i></div>
+                    <h5>4K Projection</h5>
+                    <p>Crystal clear ultra-HD screens for every seat</p>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card pricing-card h-100">
-                    <div class="card-body">
-                        <div class="pricing-icon mb-3">
-                            <i class="bi bi-ticket-detailed display-4 text-warning"></i>
-                        </div>
-                        <h4>Premium Match</h4>
-                        <h3 class="text-warning fw-bold">TSh 16,000 - 20,000</h3>
-                        <p class="text-muted">Top-tier & derby matches</p>
-                    </div>
+            <div class="col-md-3 col-6">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-speaker"></i></div>
+                    <h5>Surround Sound</h5>
+                    <p>Immersive audio that puts you in the stadium</p>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card pricing-card h-100">
-                    <div class="card-body">
-                        <div class="pricing-icon mb-3">
-                            <i class="bi bi-ticket-fill display-4 text-danger"></i>
-                        </div>
-                        <h4>VIP Section</h4>
-                        <h3 class="text-danger fw-bold">TSh 25,000</h3>
-                        <p class="text-muted">Premium seating & service</p>
-                    </div>
+            <div class="col-md-3 col-6">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-cup-hot"></i></div>
+                    <h5>Snacks & Drinks</h5>
+                    <p>Full menu of refreshments and local snacks</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                    <h5>Secure & Safe</h5>
+                    <p>24/7 security and comfortable environment</p>
                 </div>
             </div>
         </div>

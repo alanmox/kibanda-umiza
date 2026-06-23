@@ -1,8 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (el) {
-        return new bootstrap.Tooltip(el);
-    });
+    var navbar = document.getElementById('mainNav');
+    var backToTop = document.getElementById('backToTop');
+
+    if (navbar) {
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+
+    if (backToTop) {
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 400) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+    }
 
     var alertList = document.querySelectorAll('.alert-dismissible');
     alertList.forEach(function (alert) {
