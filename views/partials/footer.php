@@ -27,7 +27,7 @@
                     <li><i class="bi bi-geo-alt"></i> Dar es Salaam, Tanzania</li>
                     <li><i class="bi bi-telephone"></i> +255 712 345 678</li>
                     <li><i class="bi bi-envelope"></i> info@kibandaumiza.co.tz</li>
-                    <li><i class="bi bi-clock"></i> Open Daily: 10:00 AM - 12:00 AM</li>
+                    <li><i class="bi bi-clock"></i> Open 24 Hours</li>
                 </ul>
             </div>
         </div>
