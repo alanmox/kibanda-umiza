@@ -16,21 +16,11 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: url('../assets/img/fifa-world-cup-2026-bg.jpg') no-repeat center center fixed;
+    background: url('../img/fifa-world-cup-2026-bg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: var(--text);
     overflow-x: hidden;
     min-height: 100vh;
-    position: relative;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
-    z-index: 0;
-    pointer-events: none;
 }
 
 body > * {
@@ -263,24 +253,11 @@ body > * {
     margin: 0 auto 48px;
 }
 
-#today-matches {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-}
-
-#upcoming-matches {
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(4px);
-}
-
-#tickets {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-}
-
+#today-matches,
+#upcoming-matches,
+#tickets,
 #features {
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(4px);
+    background: transparent;
 }
 
 .match-card {
