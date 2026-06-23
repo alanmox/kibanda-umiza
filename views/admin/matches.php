@@ -176,9 +176,6 @@
     </div>
 </div>
 <?php endforeach; ?>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="addMatchModal">
     <div class="modal-dialog modal-lg">
