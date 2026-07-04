@@ -52,7 +52,12 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="?page=admin&action=logout">
+                        <span class="nav-link text-success">
+                            <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['username']) ?>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="?page=auth&action=logout">
                             <i class="bi bi-box-arrow-right"></i> Logout
                         </a>
                     </li>

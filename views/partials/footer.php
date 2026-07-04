@@ -18,7 +18,8 @@
                     <li><a href="?page=landing#today-matches" class="footer-link">Today's Matches</a></li>
                     <li><a href="?page=landing#upcoming-matches" class="footer-link">Upcoming Matches</a></li>
                     <li><a href="?page=landing#tickets" class="footer-link">Ticket Prices</a></li>
-                    <li><a href="?page=admin&action=login" class="footer-link">Admin Panel</a></li>
+                    <li><a href="?page=auth&action=login" class="footer-link">Login</a></li>
+                    <li><a href="?page=auth&action=register" class="footer-link">Register</a></li>
                 </ul>
             </div>
             <div class="col-md-4">

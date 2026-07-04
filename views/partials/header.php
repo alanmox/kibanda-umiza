@@ -35,11 +35,31 @@
                 <li class="nav-item">
                     <a class="nav-link" href="?page=landing#features">Features</a>
                 </li>
-                <li class="nav-item ms-lg-2">
-                    <a class="nav-link btn btn-outline-light btn-sm px-3 rounded-pill" href="?page=admin&action=login">
-                        <i class="bi bi-lock"></i> Admin
-                    </a>
-                </li>
+                <?php if ($auth->isLoggedIn()): ?>
+                    <?php if ($auth->isAdmin()): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=admin&action=dashboard">
+                                <i class="bi bi-shield-lock"></i> Admin Panel
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <li class="nav-item">
+                        <span class="nav-link text-success">
+                            <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['username']) ?>
+                        </span>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link btn btn-outline-danger btn-sm px-3 rounded-pill" href="?page=auth&action=logout">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link btn btn-outline-light btn-sm px-3 rounded-pill" href="?page=auth&action=login">
+                            <i class="bi bi-person"></i> Login
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

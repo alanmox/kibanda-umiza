@@ -77,14 +77,10 @@ switch ($page) {
         include __DIR__ . '/../views/landing.php';
         break;
 
-    case 'admin':
-        if (!$auth->isLoggedIn() && $action !== 'login' && $action !== 'do_login') {
-            $action = 'login';
-        }
-
+    case 'auth':
         switch ($action) {
             case 'login':
-                include __DIR__ . '/../views/admin/login.php';
+                include __DIR__ . '/../views/auth/login.php';
                 break;
 
             case 'do_login':
@@ -92,14 +88,50 @@ switch ($page) {
                     $username = $_POST['username'] ?? '';
                     $password = $_POST['password'] ?? '';
                     if ($auth->login($username, $password)) {
-                        header('Location: ?page=admin&action=dashboard');
+                        $role = $auth->getRole();
+                        if ($role === 'admin') {
+                            header('Location: ?page=admin&action=dashboard');
+                        } else {
+                            header('Location: ?page=landing');
+                        }
                         exit;
                     } else {
                         $loginError = 'Invalid username or password.';
-                        include __DIR__ . '/../views/admin/login.php';
+                        include __DIR__ . '/../views/auth/login.php';
                     }
                 } else {
-                    header('Location: ?page=admin&action=login');
+                    header('Location: ?page=auth&action=login');
+                    exit;
+                }
+                break;
+
+            case 'register':
+                include __DIR__ . '/../views/auth/register.php';
+                break;
+
+            case 'do_register':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $username         = $_POST['username'] ?? '';
+                    $email            = $_POST['email'] ?? '';
+                    $password         = $_POST['password'] ?? '';
+                    $confirmPassword  = $_POST['confirm_password'] ?? '';
+
+                    if ($password !== $confirmPassword) {
+                        $registerError = 'Passwords do not match.';
+                        include __DIR__ . '/../views/auth/register.php';
+                        break;
+                    }
+
+                    $result   = $auth->register($username, $email, $password);
+                    if ($result === true) {
+                        $registerSuccess = 'Registration successful! You can now log in.';
+                        include __DIR__ . '/../views/auth/login.php';
+                    } else {
+                        $registerError = $result;
+                        include __DIR__ . '/../views/auth/register.php';
+                    }
+                } else {
+                    header('Location: ?page=auth&action=register');
                     exit;
                 }
                 break;
@@ -108,7 +140,20 @@ switch ($page) {
                 $auth->logout();
                 header('Location: ?page=landing');
                 exit;
-                break;
+
+            default:
+                header('Location: ?page=auth&action=login');
+                exit;
+        }
+        break;
+
+    case 'admin':
+        if (!$auth->isAdmin()) {
+            header('Location: ?page=auth&action=login');
+            exit;
+        }
+
+        switch ($action) {
 
             case 'change_password':
                 $passwordMessage = '';
