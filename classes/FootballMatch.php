@@ -127,6 +127,8 @@ class FootballMatch extends BaseModel
             $this->errors[] = 'Match date is required.';
         } elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $this->match_date)) {
             $this->errors[] = 'Invalid date format. Use YYYY-MM-DD.';
+        } elseif ($this->match_date < date('Y-m-d')) {
+            $this->errors[] = 'Match date cannot be in the past.';
         }
         if (empty($this->match_time)) {
             $this->errors[] = 'Match time is required.';
@@ -190,6 +192,24 @@ class FootballMatch extends BaseModel
             $this->status,
             $this->id,
         ]);
+    }
+
+    public function autoCompletePast()
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE {$this->table} SET status = 'completed' WHERE match_date < CURDATE() AND status != 'completed'"
+        );
+        return $stmt->execute();
+    }
+
+    public function getActiveMatches()
+    {
+        $this->autoCompletePast();
+        $stmt = $this->db->prepare(
+            "SELECT * FROM {$this->table} WHERE status IN ('upcoming', 'ongoing') ORDER BY match_date ASC, match_time ASC"
+        );
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     public function search($keyword)

@@ -261,7 +261,7 @@ switch ($page) {
                 }
 
                 if (!isset($footballMatches)) {
-                    $footballMatches = $footballMatch->getAll();
+                    $footballMatches = $footballMatch->getActiveMatches();
                 }
 
                 include __DIR__ . '/../views/admin/matches.php';

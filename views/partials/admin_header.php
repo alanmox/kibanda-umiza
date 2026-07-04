@@ -64,9 +64,7 @@
                         <h4 class="mb-0">Manage your football viewing center</h4>
                     </div>
                 </div>
-                <div class="admin-topbar-badge">
-                    <i class="bi bi-broadcast"></i> Live Operations
-                </div>
+
             </header>
 
             <main class="admin-content">
