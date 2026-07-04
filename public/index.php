@@ -39,6 +39,9 @@ switch ($page) {
                 $customer->setGender($_POST['gender'] ?? '');
                 $customer->setSeatNumber($_POST['seat_number'] ?? 0);
                 $customer->setMatchId($_POST['match_id'] ?? 0);
+                if ($auth->isLoggedIn()) {
+                    $customer->setUserId($_SESSION['user_id']);
+                }
 
                 if ($customer->create()) {
                     $selectedMatch = $footballMatch->read($customer->getMatchId());
@@ -143,6 +146,51 @@ switch ($page) {
 
             default:
                 header('Location: ?page=auth&action=login');
+                exit;
+        }
+        break;
+
+    case 'user':
+        if (!$auth->isLoggedIn()) {
+            header('Location: ?page=auth&action=login');
+            exit;
+        }
+
+        switch ($action) {
+            case 'dashboard':
+                $user        = $auth->getCurrentUser();
+                $bookings    = $customer->getByUserId($user['id']);
+                $totalSpent  = 0;
+                foreach ($bookings as $b) {
+                    $totalSpent += floatval($b['ticket_price'] ?? 0);
+                }
+                include __DIR__ . '/../views/user/dashboard.php';
+                break;
+
+            case 'change_password':
+                $passwordMessage = '';
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $result = $auth->changePassword(
+                        $_POST['current_password'] ?? '',
+                        $_POST['new_password'] ?? ''
+                    );
+                    if ($result === true) {
+                        $passwordMessage = 'Password changed successfully.';
+                    } else {
+                        $passwordMessage = $result;
+                    }
+                }
+                $user     = $auth->getCurrentUser();
+                $bookings = $customer->getByUserId($user['id']);
+                $totalSpent  = 0;
+                foreach ($bookings as $b) {
+                    $totalSpent += floatval($b['ticket_price'] ?? 0);
+                }
+                include __DIR__ . '/../views/user/dashboard.php';
+                break;
+
+            default:
+                header('Location: ?page=user&action=dashboard');
                 exit;
         }
         break;

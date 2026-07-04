@@ -42,6 +42,12 @@
                                 <i class="bi bi-shield-lock"></i> Admin Panel
                             </a>
                         </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=user&action=dashboard">
+                                <i class="bi bi-person"></i> Dashboard
+                            </a>
+                        </li>
                     <?php endif; ?>
                     <li class="nav-item">
                         <span class="nav-link text-success">

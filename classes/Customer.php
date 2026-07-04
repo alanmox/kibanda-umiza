@@ -10,6 +10,7 @@ class Customer extends BaseModel
     private $ticket_number;
     private $seat_number;
     private $match_id;
+    private $user_id;
 
     public function __construct()
     {
@@ -53,6 +54,11 @@ class Customer extends BaseModel
         $this->match_id = intval($match_id);
     }
 
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id ? intval($user_id) : null;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -86,6 +92,11 @@ class Customer extends BaseModel
     public function getMatchId()
     {
         return $this->match_id;
+    }
+
+    public function getUserId()
+    {
+        return $this->user_id;
     }
 
     public function validate()
@@ -183,8 +194,8 @@ class Customer extends BaseModel
         $encryptedPhone = Encryption::encrypt($this->phone);
 
         $stmt = $this->db->prepare(
-            "INSERT INTO {$this->table} (full_name_encrypted, phone_encrypted, gender, ticket_number, seat_number, match_id)
-             VALUES (?, ?, ?, ?, ?, ?)"
+            "INSERT INTO {$this->table} (full_name_encrypted, phone_encrypted, gender, ticket_number, seat_number, match_id, user_id)
+             VALUES (?, ?, ?, ?, ?, ?, ?)"
         );
         $result = $stmt->execute([
             $encryptedName,
@@ -193,6 +204,7 @@ class Customer extends BaseModel
             $this->ticket_number,
             $this->seat_number,
             $this->match_id,
+            $this->user_id,
         ]);
 
         if ($result) {
@@ -263,6 +275,24 @@ class Customer extends BaseModel
         return $customers;
     }
 
+    public function getByUserId($userId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT c.*, m.team_a, m.team_b, m.match_date, m.match_time, m.ticket_price, m.status as match_status
+             FROM {$this->table} c
+             JOIN matches m ON c.match_id = m.id
+             WHERE c.user_id = ?
+             ORDER BY c.created_at DESC"
+        );
+        $stmt->execute([$userId]);
+        $bookings = $stmt->fetchAll();
+        foreach ($bookings as &$b) {
+            $b['full_name'] = Encryption::decrypt($b['full_name_encrypted']);
+            $b['phone']     = Encryption::decrypt($b['phone_encrypted']);
+        }
+        return $bookings;
+    }
+
     public function getCustomersByDate($date)
     {
         $stmt = $this->db->prepare(
@@ -306,5 +336,6 @@ class Customer extends BaseModel
         $this->ticket_number = $data['ticket_number'] ?? '';
         $this->seat_number  = $data['seat_number'] ?? 0;
         $this->match_id     = $data['match_id'] ?? 0;
+        $this->user_id      = $data['user_id'] ?? null;
     }
 }

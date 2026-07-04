@@ -52,8 +52,10 @@ CREATE TABLE customers (
     ticket_number VARCHAR(6) NOT NULL UNIQUE,
     seat_number INT NOT NULL,
     match_id INT NOT NULL,
+    user_id INT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     UNIQUE KEY unique_seat_per_match (match_id, seat_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
