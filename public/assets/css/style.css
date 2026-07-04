@@ -645,8 +645,19 @@ body::before {
 
 .admin-body {
     min-height: 100vh;
-    background: linear-gradient(135deg, rgba(3, 8, 20, 0.98), rgba(10, 20, 20, 0.9));
+    background: url('../img/fifa-world-cup-2026-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: var(--text);
+    position: relative;
+}
+
+.admin-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(3, 8, 20, 0.82), rgba(10, 20, 20, 0.78));
+    pointer-events: none;
+    z-index: -1;
 }
 
 .admin-wrapper {
