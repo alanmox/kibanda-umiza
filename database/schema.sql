@@ -7,7 +7,20 @@ CREATE DATABASE IF NOT EXISTS kibanda_umiza;
 USE kibanda_umiza;
 
 -- ------------------------------------------------------------
--- 1. admins table
+-- 1. users table
+--    Stores both regular users and admins with role-based access
+-- ------------------------------------------------------------
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
+-- 2. admins table
 --    Stores system admin credentials
 -- ------------------------------------------------------------
 CREATE TABLE admins (
@@ -18,7 +31,7 @@ CREATE TABLE admins (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ------------------------------------------------------------
--- 2. matches table
+-- 3. matches table
 --    Stores football match details
 --    PK: id
 -- ------------------------------------------------------------
@@ -37,7 +50,7 @@ CREATE TABLE matches (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ------------------------------------------------------------
--- 3. customers table
+-- 4. customers table
 --    Stores customer registrations with encrypted PII
 --    PK: id
 --    FK: match_id REFERENCES matches(id)
@@ -60,7 +73,7 @@ CREATE TABLE customers (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ------------------------------------------------------------
--- 4. payments table
+-- 5. payments table
 --    Stores cash payment records
 --    PK: id
 --    FK: customer_id REFERENCES customers(id)
@@ -76,12 +89,6 @@ CREATE TABLE payments (
     FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
     FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ------------------------------------------------------------
--- 5. users table
---    Stores both regular users and admins with role-based access
--- ------------------------------------------------------------
-CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
