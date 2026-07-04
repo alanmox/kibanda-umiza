@@ -8,61 +8,58 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-success border-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="?page=admin&action=dashboard">
-                <i class="bi bi-shield-fill-check text-success"></i> Kibanda Umiza Admin
+<body class="admin-body">
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <a class="admin-brand" href="?page=admin&action=dashboard">
+                <i class="bi bi-shield-fill-check"></i>
+                <span>Kibanda Umiza</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="adminNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=admin&action=dashboard">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=admin&action=matches">
-                            <i class="bi bi-trophy"></i> Matches
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=admin&action=customers">
-                            <i class="bi bi-people"></i> Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=admin&action=payments">
-                            <i class="bi bi-cash-coin"></i> Payments
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=admin&action=reports">
-                            <i class="bi bi-graph-up"></i> Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=admin&action=change_password">
-                            <i class="bi bi-key"></i> Change Password
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="nav-link text-success">
-                            <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['username']) ?>
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-danger" href="?page=auth&action=logout">
-                            <i class="bi bi-box-arrow-right"></i> Logout
-                        </a>
-                    </li>
-                </ul>
+
+            <div class="admin-user-card">
+                <i class="bi bi-person-circle"></i>
+                <div>
+                    <strong><?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?></strong>
+                    <small>Administrator</small>
+                </div>
             </div>
-        </div>
-    </nav>
-    <div class="container-fluid mt-3">
+
+            <nav class="admin-nav">
+                <a class="admin-nav-link <?= (($action ?? '') === 'dashboard') ? 'active' : '' ?>" href="?page=admin&action=dashboard">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a class="admin-nav-link <?= (($action ?? '') === 'matches') ? 'active' : '' ?>" href="?page=admin&action=matches">
+                    <i class="bi bi-trophy"></i> Matches
+                </a>
+                <a class="admin-nav-link <?= (($action ?? '') === 'customers') ? 'active' : '' ?>" href="?page=admin&action=customers">
+                    <i class="bi bi-people"></i> Customers
+                </a>
+                <a class="admin-nav-link <?= (($action ?? '') === 'payments') ? 'active' : '' ?>" href="?page=admin&action=payments">
+                    <i class="bi bi-cash-coin"></i> Payments
+                </a>
+                <a class="admin-nav-link <?= (($action ?? '') === 'reports') ? 'active' : '' ?>" href="?page=admin&action=reports">
+                    <i class="bi bi-graph-up"></i> Reports
+                </a>
+                <a class="admin-nav-link <?= (($action ?? '') === 'change_password') ? 'active' : '' ?>" href="?page=admin&action=change_password">
+                    <i class="bi bi-key"></i> Change Password
+                </a>
+            </nav>
+
+            <a class="admin-nav-link danger" href="?page=admin&action=logout">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </aside>
+
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <div>
+                    <p class="admin-topbar-label">Admin Panel</p>
+                    <h4 class="mb-0">Manage your football viewing center</h4>
+                </div>
+                <div class="admin-topbar-badge">
+                    <i class="bi bi-broadcast"></i> Live Operations
+                </div>
+            </header>
+
+            <main class="admin-content">
+                <div class="container-fluid py-3">

@@ -3,7 +3,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="bi bi-speedometer2 text-success"></i> Dashboard</h2>
     <span class="text-muted">
-        <i class="bi bi-person-circle"></i> Welcome, <?= htmlspecialchars($_SESSION['admin_username'] ?? 'Admin') ?>
+        <i class="bi bi-person-circle"></i> Welcome, <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?>
     </span>
 </div>
 

@@ -643,6 +643,153 @@ body::before {
 
 /* ============ Admin Page Styles ============ */
 
+.admin-body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(3, 8, 20, 0.98), rgba(10, 20, 20, 0.9));
+    color: var(--text);
+}
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 280px;
+    background: rgba(6, 10, 18, 0.86);
+    backdrop-filter: blur(16px);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.admin-brand i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.admin-user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-user-card i {
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+.admin-user-card strong,
+.admin-user-card small {
+    display: block;
+}
+
+.admin-user-card small {
+    color: var(--text-muted);
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 12px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.admin-nav-link:hover,
+.admin-nav-link.active {
+    background: rgba(0, 200, 83, 0.12);
+    color: var(--primary-light);
+    border-color: rgba(0, 200, 83, 0.22);
+}
+
+.admin-nav-link.danger {
+    margin-top: auto;
+    color: #ff8a8a;
+}
+
+.admin-nav-link.danger:hover {
+    background: rgba(255, 68, 68, 0.12);
+    color: #ffb3b3;
+    border-color: rgba(255, 68, 68, 0.22);
+}
+
+.admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+}
+
+.admin-topbar-label {
+    margin: 0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary-light);
+}
+
+.admin-topbar-badge {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(0, 200, 83, 0.12);
+    color: var(--primary-light);
+    border: 1px solid rgba(0, 200, 83, 0.2);
+}
+
+.admin-content {
+    flex: 1;
+    padding: 8px 8px 16px;
+}
+
+.admin-footer {
+    padding: 14px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
 .bg-login {
     background: transparent;
     min-height: 100vh;
@@ -783,10 +930,42 @@ body::before {
     .hero-image-wrapper { display: none; }
 }
 
+@media (max-width: 992px) {
+    .admin-wrapper {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .admin-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .admin-nav-link {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+    }
+}
+
 @media (max-width: 576px) {
     .hero-title { font-size: 2.2rem; }
     .hero-subtitle { font-size: 1rem; }
     .hero-stats { flex-wrap: wrap; gap: 16px; justify-content: center; }
     .match-teams { flex-direction: column; gap: 8px; }
     .vs-divider { padding: 4px 16px; }
+
+    .admin-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .admin-nav-link {
+        flex: 1 1 100%;
+    }
 }

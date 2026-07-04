@@ -1,9 +1,14 @@
-    </div>
-    <footer class="footer mt-auto py-3 bg-dark text-white text-center">
-        <div class="container">
-            <p class="mb-0">&copy; <?= date('Y') ?> Kibanda Umiza Admin Panel. All rights reserved.</p>
+                </div>
+            </main>
+
+            <footer class="admin-footer">
+                <div class="container-fluid">
+                    <p class="mb-0">&copy; <?= date('Y') ?> Kibanda Umiza Admin Panel. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
-    </footer>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
