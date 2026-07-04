@@ -1,0 +1,26 @@
+name: Deploy to Lightsail
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/kibanda-umiza
+            git pull origin main
+            sudo chown -R www-data:www-data /var/www/kibanda-umiza --exclude=.git 2>/dev/null || sudo chown -R www-data:www-data /var/www/kibanda-umiza && sudo chown -R ubuntu:ubuntu /var/www/kibanda-umiza/.git
+            find /var/www/kibanda-umiza -type d ! -path '*/.git*' -exec chmod 755 {} \;
+            find /var/www/kibanda-umiza -type f ! -path '*/.git*' -exec chmod 644 {} \;
