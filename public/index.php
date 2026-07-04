@@ -27,6 +27,53 @@ switch ($page) {
     case 'landing':
         $todayMatches    = $footballMatch->getTodayMatches();
         $upcomingMatches = $footballMatch->getUpcomingMatches();
+
+        $bookingMessage = '';
+        $bookingError   = '';
+        $bookingLookup  = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['register_booking'])) {
+                $customer->setFullName($_POST['full_name'] ?? '');
+                $customer->setPhone($_POST['phone'] ?? '');
+                $customer->setGender($_POST['gender'] ?? '');
+                $customer->setSeatNumber($_POST['seat_number'] ?? 0);
+                $customer->setMatchId($_POST['match_id'] ?? 0);
+
+                if ($customer->create()) {
+                    $selectedMatch = $footballMatch->read($customer->getMatchId());
+                    $paymentOption = $_POST['payment_option'] ?? 'reserve';
+
+                    if ($paymentOption === 'pay_now' && $selectedMatch) {
+                        $payment->setCustomerId($customer->getId());
+                        $payment->setMatchId($customer->getMatchId());
+                        $payment->setAmountPaid($selectedMatch['ticket_price'] ?? 0);
+                        $payment->setPaymentDate(date('Y-m-d'));
+
+                        if ($payment->create()) {
+                            $bookingMessage = 'Booking confirmed successfully! Ticket #' . $customer->getTicketNumber() . '. Payment recorded.';
+                        } else {
+                            $bookingMessage = 'Booking confirmed successfully! Ticket #' . $customer->getTicketNumber() . '. Payment could not be recorded.';
+                        }
+                    } else {
+                        $bookingMessage = 'Booking reserved successfully! Ticket #' . $customer->getTicketNumber() . '. Please pay at the counter.';
+                    }
+                } else {
+                    $bookingError = 'Booking failed: ' . implode(', ', $customer->getErrors());
+                }
+            } elseif (isset($_POST['lookup_ticket'])) {
+                $ticketNumber = trim($_POST['ticket_number'] ?? '');
+                if ($ticketNumber !== '') {
+                    $bookingLookup = $customer->getCustomerByTicketNumber($ticketNumber);
+                    if (!$bookingLookup) {
+                        $bookingError = 'No booking found for that ticket number.';
+                    }
+                } else {
+                    $bookingError = 'Please enter a ticket number.';
+                }
+            }
+        }
+
         include __DIR__ . '/../views/landing.php';
         break;
 

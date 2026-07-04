@@ -114,6 +114,16 @@ class Customer extends BaseModel
 
         if ($this->match_id <= 0) {
             $this->errors[] = 'Match selection is required.';
+        } else {
+            $matchStmt = $this->db->prepare('SELECT total_seats FROM matches WHERE id = ?');
+            $matchStmt->execute([$this->match_id]);
+            $match = $matchStmt->fetch();
+
+            if (!$match) {
+                $this->errors[] = 'Selected match was not found.';
+            } elseif ($this->seat_number > intval($match['total_seats'])) {
+                $this->errors[] = 'Seat number exceeds the total seats for this match.';
+            }
         }
 
         if ($this->isSeatTaken()) {
@@ -121,6 +131,20 @@ class Customer extends BaseModel
         }
 
         return empty($this->errors);
+    }
+
+    public function getCustomerByTicketNumber($ticketNumber)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE ticket_number = ?");
+        $stmt->execute([$ticketNumber]);
+        $customer = $stmt->fetch();
+
+        if ($customer) {
+            $customer['full_name'] = Encryption::decrypt($customer['full_name_encrypted']);
+            $customer['phone']     = Encryption::decrypt($customer['phone_encrypted']);
+        }
+
+        return $customer;
     }
 
     public function isSeatTaken()

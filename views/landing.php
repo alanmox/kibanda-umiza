@@ -187,6 +187,104 @@
     </div>
 </section>
 
+<section id="book-seat" class="section" style="background: var(--dark-2);">
+    <div class="container">
+        <div class="text-center">
+            <span class="section-tag"><i class="bi bi-ticket-perforated"></i> Book Your Seat</span>
+            <h2 class="section-title">Reserve a spot for the next match</h2>
+            <p class="section-subtitle">Choose a match, select your seat, and get a ticket number instantly.</p>
+        </div>
+
+        <?php if (!empty($bookingMessage)): ?>
+            <div class="alert alert-success rounded-4">
+                <i class="bi bi-check-circle"></i> <?= htmlspecialchars($bookingMessage) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($bookingError)): ?>
+            <div class="alert alert-danger rounded-4">
+                <i class="bi bi-exclamation-triangle"></i> <?= htmlspecialchars($bookingError) ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card border-0 rounded-4 p-4 shadow-sm" style="background: var(--dark-1);">
+                    <h4 class="mb-3 text-success"><i class="bi bi-calendar2-check"></i> New Booking</h4>
+                    <form method="post">
+                        <input type="hidden" name="register_booking" value="1">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="full_name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" name="phone" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" name="gender" required>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Seat Number</label>
+                                <input type="number" class="form-control" name="seat_number" min="1" max="100" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Match</label>
+                                <select class="form-select" name="match_id" required>
+                                    <?php foreach ($upcomingMatches as $m): ?>
+                                        <option value="<?= (int)$m['id'] ?>">
+                                            <?= htmlspecialchars($m['team_a']) ?> vs <?= htmlspecialchars($m['team_b']) ?> (<?= date('d M', strtotime($m['match_date'])) ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Payment Option</label>
+                                <select class="form-select" name="payment_option">
+                                    <option value="reserve">Reserve only</option>
+                                    <option value="pay_now">Pay now</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-4 rounded-pill px-4">
+                            <i class="bi bi-check2-circle"></i> Confirm Booking
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card border-0 rounded-4 p-4 shadow-sm" style="background: var(--dark-1);">
+                    <h4 class="mb-3 text-warning"><i class="bi bi-search"></i> Ticket Lookup</h4>
+                    <form method="post">
+                        <input type="hidden" name="lookup_ticket" value="1">
+                        <label class="form-label">Ticket Number</label>
+                        <input type="text" class="form-control" name="ticket_number" placeholder="Enter ticket number" required>
+                        <button type="submit" class="btn btn-outline-warning mt-3 rounded-pill px-4">
+                            <i class="bi bi-arrow-right-circle"></i> Check Booking
+                        </button>
+                    </form>
+
+                    <?php if (!empty($bookingLookup)): ?>
+                        <div class="alert alert-info rounded-4 mt-3 mb-0">
+                            <strong>Ticket found</strong><br>
+                            Name: <?= htmlspecialchars($bookingLookup['full_name']) ?><br>
+                            Phone: <?= htmlspecialchars($bookingLookup['phone']) ?><br>
+                            Seat: <?= (int)$bookingLookup['seat_number'] ?><br>
+                            Match ID: <?= (int)$bookingLookup['match_id'] ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section id="tickets" class="section">
     <div class="container">
         <div class="text-center">
