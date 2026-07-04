@@ -761,6 +761,49 @@ body::before {
     backdrop-filter: blur(8px);
 }
 
+.admin-toggle-btn {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-toggle-btn:hover {
+    background: rgba(0, 200, 83, 0.12);
+    color: var(--primary-light);
+}
+
+.admin-sidebar.collapsed {
+    width: 86px;
+}
+
+.admin-sidebar.collapsed .admin-brand span,
+.admin-sidebar.collapsed .admin-user-card div,
+.admin-sidebar.collapsed .admin-nav-link span,
+.admin-sidebar.collapsed .admin-brand i + span,
+.admin-sidebar.collapsed .admin-user-card i + div,
+.admin-sidebar.collapsed .admin-nav-link:not(.danger) i + * {
+    display: none;
+}
+
+.admin-sidebar.collapsed .admin-nav-link {
+    justify-content: center;
+    padding: 12px 8px;
+}
+
+.admin-sidebar.collapsed .admin-brand {
+    justify-content: center;
+}
+
+.admin-sidebar.collapsed .admin-user-card {
+    justify-content: center;
+}
+
 .admin-topbar-label {
     margin: 0;
     font-size: 0.8rem;
@@ -941,6 +984,10 @@ body::before {
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    .admin-toggle-btn {
+        display: inline-flex;
+    }
+
     .admin-nav {
         flex-direction: row;
         flex-wrap: wrap;
@@ -949,6 +996,10 @@ body::before {
     .admin-nav-link {
         flex: 1 1 calc(50% - 8px);
         justify-content: center;
+    }
+
+    .admin-sidebar.collapsed {
+        width: 100%;
     }
 }
 

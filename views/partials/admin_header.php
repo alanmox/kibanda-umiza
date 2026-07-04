@@ -52,9 +52,14 @@
 
         <div class="admin-main">
             <header class="admin-topbar">
-                <div>
-                    <p class="admin-topbar-label">Admin Panel</p>
-                    <h4 class="mb-0">Manage your football viewing center</h4>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="admin-toggle-btn" type="button" id="sidebarToggle" aria-label="Toggle sidebar">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div>
+                        <p class="admin-topbar-label">Admin Panel</p>
+                        <h4 class="mb-0">Manage your football viewing center</h4>
+                    </div>
                 </div>
                 <div class="admin-topbar-badge">
                     <i class="bi bi-broadcast"></i> Live Operations
