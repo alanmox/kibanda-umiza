@@ -275,8 +275,8 @@ switch ($page) {
                 break;
 
             default:
-                include __DIR__ . '/../views/admin/dashboard.php';
-                break;
+                header('Location: ?page=admin&action=dashboard');
+                exit;
         }
         break;
 
