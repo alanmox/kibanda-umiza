@@ -1,0 +1,44 @@
+# --- Sensitive credentials ---
+config/database.php
+*.pem
+*.key
+
+# --- Environment config ---
+.env
+.env.*
+!.env.example
+
+# --- OS files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDE & editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# --- Logs & temp ---
+*.log
+tmp/
+temp/
+
+# --- Dependencies (if added later) ---
+vendor/
+node_modules/
+bower_components/
+
+# --- Binary assets (user uploads / generated) ---
+public/assets/uploads/
+public/assets/img/*.jpg
+public/assets/img/*.png
+public/assets/img/*.gif
