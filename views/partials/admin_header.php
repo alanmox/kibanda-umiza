@@ -37,6 +37,9 @@
                 <a class="admin-nav-link <?= (($action ?? '') === 'payments') ? 'active' : '' ?>" href="?page=admin&action=payments">
                     <i class="bi bi-cash-coin"></i> Payments
                 </a>
+                <a class="admin-nav-link <?= (($action ?? '') === 'users') ? 'active' : '' ?>" href="?page=admin&action=users">
+                    <i class="bi bi-person-badge"></i> Users
+                </a>
                 <a class="admin-nav-link <?= (($action ?? '') === 'reports') ? 'active' : '' ?>" href="?page=admin&action=reports">
                     <i class="bi bi-graph-up"></i> Reports
                 </a>
@@ -45,7 +48,7 @@
                 </a>
             </nav>
 
-            <a class="admin-nav-link danger" href="?page=admin&action=logout">
+            <a class="admin-nav-link danger" href="?page=auth&action=logout">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>
         </aside>

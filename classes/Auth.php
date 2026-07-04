@@ -100,6 +100,27 @@ class Auth
         return true;
     }
 
+    public function getTotalUsersCount()
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM users");
+        $stmt->execute();
+        return $stmt->fetch()['total'];
+    }
+
+    public function getAllUsersWithBookingCounts()
+    {
+        $stmt = $this->db->prepare(
+            "SELECT u.id, u.username, u.email, u.role, u.created_at,
+                    COUNT(c.id) as booking_count
+             FROM users u
+             LEFT JOIN customers c ON c.user_id = u.id
+             GROUP BY u.id
+             ORDER BY u.created_at DESC"
+        );
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     private function usernameExists($username)
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");

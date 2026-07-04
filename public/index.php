@@ -225,6 +225,7 @@ switch ($page) {
                 $todayRevenue     = $payment->getTodayRevenue();
                 $allMatches       = $footballMatch->getAll();
                 $upcomingMatches  = $footballMatch->getUpcomingMatches();
+                $totalUsers       = $auth->getTotalUsersCount();
                 include __DIR__ . '/../views/admin/dashboard.php';
                 break;
 
@@ -311,6 +312,11 @@ switch ($page) {
                 $allCustomers  = $customer->getAll();
                 $allMatches    = $footballMatch->getAll();
                 include __DIR__ . '/../views/admin/payments.php';
+                break;
+
+            case 'users':
+                $users = $auth->getAllUsersWithBookingCounts();
+                include __DIR__ . '/../views/admin/users.php';
                 break;
 
             case 'reports':

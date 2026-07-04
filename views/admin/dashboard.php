@@ -50,6 +50,15 @@
             </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card stats-card bg-secondary text-white h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-person-badge display-5"></i>
+                <h3 class="mt-2"><?= $totalUsers ?></h3>
+                <p class="mb-0">Total Users</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
